@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GlamCalc</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlamCalc</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="calculator">
-  <div class="logo">GlamCalc</div>
-  <div class="display">
-    <div id="expression" class="expression"></div>
-    <div id="result" class="result">0</div>
+  <div class="calculator day">
+    <div class="logo">GlamCalc</div>
+    <div class="controls">
+      <button id="theme-toggle" class="control-btn" aria-label="Toggle Day/Night">🌙</button>
+      <button id="sound-toggle" class="control-btn" aria-label="Toggle Sound">🔊</button>
+    </div>
+    <div class="display">
+      <div id="expression" class="expression"></div>
+      <div id="result" class="result">0</div>
+    </div>
+    <div class="keypad">
+      <button class="btn function" data-value="AC">AC</button>
+      <button class="btn function" data-value="±">±</button>
+      <button class="btn function" data-value="%">%</button>
+      <button class="btn operator" data-value="÷">÷</button>
+
+      <button class="btn number" data-value="7">7</button>
+      <button class="btn number" data-value="8">8</button>
+      <button class="btn number" data-value="9">9</button>
+      <button class="btn operator" data-value="x">×</button>
+
+      <button class="btn number" data-value="4">4</button>
+      <button class="btn number" data-value="5">5</button>
+      <button class="btn number" data-value="6">6</button>
+      <button class="btn operator" data-value="-">−</button>
+
+      <button class="btn number" data-value="1">1</button>
+      <button class="btn number" data-value="2">2</button>
+      <button class="btn number" data-value="3">3</button>
+      <button class="btn operator" data-value="+">+</button>
+
+      <button class="btn number zero" data-value="0">0</button>
+      <button class="btn number" data-value=".">.</button>
+      <button class="btn equal" data-value="=">=</button>
+    </div>
   </div>
-  <div class="keypad">
-    <button class="btn function" data-value="AC">AC</button>
-    <button class="btn function" data-value="negate">±</button>
-    <button class="btn function" data-value="%">%</button>
-    <button class="btn operator" data-value="÷">÷</button>
 
-    <button class="btn number" data-value="7">7</button>
-    <button class="btn number" data-value="8">8</button>
-    <button class="btn number" data-value="9">9</button>
-    <button class="btn operator" data-value="×">×</button>
-
-    <button class="btn number" data-value="4">4</button>
-    <button class="btn number" data-value="5">5</button>
-    <button class="btn number" data-value="6">6</button>
-    <button class="btn operator" data-value="-">−</button>
-
-    <button class="btn number" data-value="1">1</button>
-    <button class="btn number" data-value="2">2</button>
-    <button class="btn number" data-value="3">3</button>
-    <button class="btn operator" data-value="+">+</button>
-
-    <button class="btn number zero" data-value="0">0</button>
-    <button class="btn number" data-value=".">.</button>
-    <button class="btn equal" data-value="=">&#9829;</button>
-  </div>
-</div>
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
