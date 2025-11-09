@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let previousInput = '';
   let operator = '';
   let expression = '';
-  let justComputed = false;  // tracks if last action was "="
+  let justComputed = false;
 
   function updateDisplay() {
     expressionEl.textContent = expression;
@@ -18,90 +18,77 @@ document.addEventListener('DOMContentLoaded', () => {
     previousInput = '';
     operator = '';
     expression = '';
-    justComputed = false;  // reset this too
+    justComputed = false;
     updateDisplay();
   }
 
   function appendNumber(num) {
-    // If we just finished a computation and user starts typing a number,
-    // start a brand new calculation.
     if (justComputed) {
-      currentInput = '';
+      // start new calculation after computing
+      currentInput = num;
       previousInput = '';
       operator = '';
       expression = '';
       justComputed = false;
+    } else {
+      if (num === '.' && currentInput.includes('.')) return;
+      currentInput += num;
     }
-
-    if (num === '.' && currentInput.includes('.')) return;
-    currentInput += num;
     updateDisplay();
   }
 
   function chooseOperator(op) {
-    justComputed = false;  // we're continuing from the last result
-
-    if (currentInput === '' && previousInput === '') return;
+    if (currentInput === '' && op !== '-') return;
     if (previousInput !== '') {
       compute();
     }
     operator = op;
+    expression = `${currentInput} ${op}`;
     previousInput = currentInput;
     currentInput = '';
-    expression = `${previousInput} ${operator}`;
+    justComputed = false;
     updateDisplay();
   }
 
   function compute() {
-    let computation;
     const prev = parseFloat(previousInput);
-    const current = parseFloat(currentInput);
-    if (isNaN(prev) || isNaN(current)) return;
-
+    const curr = parseFloat(currentInput);
+    if (isNaN(prev) || isNaN(curr)) return;
+    let result;
     switch (operator) {
       case '+':
-        computation = prev + current;
+        result = prev + curr;
         break;
       case '-':
-        computation = prev - current;
+        result = prev - curr;
         break;
       case 'x':
-      case '×':
-        computation = prev * current;
+        result = prev * curr;
         break;
       case '÷':
-      case '/':
-        computation = prev / current;
+        result = prev / curr;
         break;
       case '%':
-        computation = prev % current;
+        result = prev % curr;
         break;
       default:
         return;
     }
-
-    currentInput = computation.toString();
-    expression = `${prev} ${operator} ${current} =`;
+    currentInput = result.toString();
+    expression = `${previousInput} ${operator} ${curr} =`;
     previousInput = '';
     operator = '';
+    justComputed = true;
     updateDisplay();
 
-    justComputed = true;  // mark that we just hit "="
-
-    // glitter animation
+    // glitter effect on compute
     calculatorEl.classList.add('sparkle');
-    setTimeout(() => {
-      calculatorEl.classList.remove('sparkle');
-    }, 1000);
-  } // ← this closing brace was missing
+    setTimeout(() => calculatorEl.classList.remove('sparkle'), 1000);
+  }
 
   function negate() {
     if (currentInput === '') return;
-    if (currentInput.startsWith('-')) {
-      currentInput = currentInput.slice(1);
-    } else {
-      currentInput = '-' + currentInput;
-    }
+    currentInput = (parseFloat(currentInput) * -1).toString();
     updateDisplay();
   }
 
@@ -111,63 +98,55 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplay();
   }
 
-  const buttons = document.querySelectorAll('.btn');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const value = btn.getAttribute('data-value');
-      switch (value) {
-        case 'AC':
-          clearAll();
-          break;
-        case 'negate':
-          negate();
-          break;
-        case '%':
-          percentage();
-          break;
-        case '+':
-        case '-':
-        case 'x':
-        case '×':
-        case '÷':
-        case '/':
-          chooseOperator(value);
-          break;
-        case '=':
-          compute();
-          break;
-        default:
-          appendNumber(value);
-      }
+  // attach event listeners to buttons
+  document.querySelectorAll('.btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const value = button.getAttribute('data-value') || button.textContent.trim();
+      // add glow class
+      button.classList.add('clicked');
+      setTimeout(() => button.classList.remove('clicked'), 150);
 
-      // glow + halo sparkle effect
-      btn.classList.add('clicked');
-      setTimeout(() => {
-        btn.classList.remove('clicked');
-      }, 600); // matches CSS @keyframes sparkle-fade (0.6s)
+      if (!isNaN(value) || value === '.') {
+        appendNumber(value);
+      } else {
+        switch (value) {
+          case 'AC':
+            clearAll();
+            break;
+          case '±':
+            negate();
+            break;
+          case '%':
+            percentage();
+            break;
+          case '=':
+            compute();
+            break;
+          case '+':
+          case '-':
+          case 'x':
+          case '÷':
+            chooseOperator(value);
+            break;
+        }
+      }
     });
   });
 
   // keyboard support
-  document.addEventListener('keydown', (e) => {
+  window.addEventListener('keydown', e => {
     if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
       appendNumber(e.key);
-    }
-    if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '%') {
-      let op = e.key;
-      if (op === '*') op = 'x';
-      if (op === '/') op = '÷';
-      chooseOperator(op);
-    }
-    if (e.key === 'Enter' || e.key === '=') {
+    } else if (e.key === '+' || e.key === '-') {
+      chooseOperator(e.key);
+    } else if (e.key === '*' || e.key.toLowerCase() === 'x') {
+      chooseOperator('x');
+    } else if (e.key === '/' || e.key === '÷') {
+      chooseOperator('÷');
+    } else if (e.key === 'Enter' || e.key === '=') {
       compute();
-    }
-    if (e.key === 'Escape') {
+    } else if (e.key === 'Escape') {
       clearAll();
-    }
-    if (e.key === 'Backspace') {
-      currentInput = currentInput.slice(0, -1);
-      updateDisplay();
     }
   });
 });
