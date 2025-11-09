@@ -1,7 +1,8 @@
-/* Barbie pink theme and modern layout */
+/* Barbie pink modern calculator */
+
 body {
-  font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  font-family: 'Courier New', monospace;
+  background: #1a1a1a;
   color: #fff;
   display: flex;
   justify-content: center;
@@ -11,32 +12,32 @@ body {
 }
 
 .calculator {
-  background: #1a1a1a;
+  background: #262626;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 0 25px #ff69b4;
-  width: 320px;
+  box-shadow: 0 0 20px #ff69b4;
+  width: 340px;
 }
 
 .display {
   background: #000;
   border-radius: 12px;
   padding: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: right;
-  overflow-x: auto;
+  color: #ffb6c1;
 }
 
-.display .history {
-  font-size: 0.8em;
-  color: #888;
-  min-height: 20px;
+.display .expression {
+  font-size: 1rem;
+  min-height: 24px;
+  color: #ffb6c1;
 }
 
-.display .current {
-  font-size: 2em;
-  color: #fff;
-  min-height: 40px;
+.display .result {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ff69b4;
 }
 
 .keypad {
@@ -46,50 +47,45 @@ body {
 }
 
 .btn {
+  font-size: 1.2rem;
   padding: 15px;
-  font-size: 1.2em;
   border: none;
   border-radius: 12px;
-  background: #262626;
-  color: #fff;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s;
+  background: #333;
+  color: #fff;
+  transition: all 0.1s ease;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
 }
 
 .btn:hover {
-  background: #333;
-  box-shadow: 0 0 8px #ff69b4;
+  filter: brightness(1.2);
 }
 
-.btn.operator,
 .btn.function {
-  background: #3a0027;
+  background: #551a8b;
+  color: #fff;
 }
 
-.btn.operator:hover,
-.btn.function:hover {
-  background: #4d0033;
-  box-shadow: 0 0 10px #ff69b4;
-}
-
-.btn.equal {
+.btn.operator {
   background: #ff69b4;
   color: #fff;
 }
 
-.btn.equal:hover {
-  background: #ff85c1;
+.btn.equal {
+  background: #ff1493;
+  color: #fff;
 }
 
 .btn.zero {
   grid-column: span 2;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .calculator {
     width: 90%;
   }
   .keypad {
-    gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
   }
 }
