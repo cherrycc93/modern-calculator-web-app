@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let previousInput = '';
   let operator = '';
   let expression = '';
+  let memory = 0;
 
   function updateDisplay() {
     expressionEl.textContent = expression;
@@ -82,6 +83,24 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplay();
   }
 
+  // Memory functions
+  function memoryClear() {
+    memory = 0;
+  }
+
+  function memoryRecall() {
+    currentInput = memory.toString();
+    updateDisplay();
+  }
+
+  function memoryAdd() {
+    memory += parseFloat(currentInput || '0');
+  }
+
+  function memorySubtract() {
+    memory -= parseFloat(currentInput || '0');
+  }
+
   // Attach click events
   document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -97,6 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
         percentage();
       } else if (value === '=') {
         compute();
+      } else if (value === 'MC') {
+        memoryClear();
+      } else if (value === 'MR') {
+        memoryRecall();
+      } else if (value === 'M+') {
+        memoryAdd();
+      } else if (value === 'M-') {
+        memorySubtract();
       } else {
         chooseOperator(value);
       }
