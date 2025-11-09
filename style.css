@@ -145,3 +145,51 @@ body {
   .display .expression{ font-size: 24px; }
   .display .result    { font-size: 36px; }
 }
+
+/* Controls container for day/night and sound toggles */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.control-btn {
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  transition: filter 0.2s;
+}
+.control-btn:hover {
+  filter: brightness(1.2);
+}
+/* Day and night theme styles */
+.calculator.day {
+  background: #ff5fa2;
+}
+body.day {
+  background: #fecde4;
+}
+.calculator.night {
+  background: #8b004c;
+}
+body.night {
+  background: #551f3d;
+}
+.calculator.night .btn {
+  background: #b3005d;
+  color: #ffe6f7;
+}
+.calculator.night .btn.operator,
+.calculator.night .btn.function,
+.calculator.night .btn.equal {
+  background: #d4006a;
+}
