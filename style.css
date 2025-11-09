@@ -1,41 +1,43 @@
-/* Barbie pink gradient modern calculator */
+/* Barbie pink gradient modern calculator with glitter and pill-shaped buttons */
 body {
   margin: 0;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Courier New', monospace;
   background: linear-gradient(135deg, #f8bbd0, #ff69b4, #b76e79);
+  font-family: 'Courier New', monospace;
 }
 
 .calculator {
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(10px);
   padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+  border-radius: 25px;
+  box-shadow: 0 0 20px rgba(255,105,180,0.5);
+  position: relative;
 }
 
 .display {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   border-radius: 15px;
-  padding: 10px 15px;
+  padding: 15px;
   margin-bottom: 20px;
-  color: #fff;
+  color: #ffeaf7;
   font-size: 24px;
-  text-align: right;
   min-width: 300px;
+  text-align: right;
 }
 
 .display .expression {
-  font-size: 20px;
+  font-size: 18px;
+  min-height: 24px;
   opacity: 0.8;
 }
 
 .display .result {
   font-size: 32px;
-  font-weight: bold;
+  min-height: 32px;
 }
 
 .keypad {
@@ -46,16 +48,15 @@ body {
 }
 
 .btn {
-  border: none;
-  border-radius: 35px;
   font-size: 20px;
+  border: none;
+  outline: none;
+  border-radius: 35px;
   color: #fff;
-  cursor: pointer;
+  background: rgba(255,255,255,0.15);
   position: relative;
   overflow: hidden;
-  transition: box-shadow 0.2s;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
+  transition: box-shadow 0.3s, background 0.3s;
 }
 
 .btn::after {
@@ -65,47 +66,62 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.6), rgba(255,255,255,0));
+  background: radial-gradient(circle, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);
   opacity: 0;
   transition: opacity 0.4s;
 }
 
 .btn:hover::after {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 
-.btn.function,
+.btn.function {
+  background: rgba(255,105,180,0.4);
+}
+
 .btn.operator {
-  background: rgba(255, 105, 180, 0.5);
+  background: rgba(255,20,147,0.5);
 }
 
 .btn.equal {
-  background: rgba(255, 20, 147, 0.7);
-  font-size: 26px;
+  background: #ff1493;
+  font-size: 24px;
+  position: relative;
+}
+
+.btn.equal::before {
+  content: '\2665'; /* heart symbol */
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 18px;
 }
 
 .btn.zero {
   grid-column: span 2;
 }
 
-/* Glow effect on click */
 .btn.clicked {
-  box-shadow: 0 0 10px 5px rgba(255, 105, 180, 0.8);
+  box-shadow: 0 0 10px 5px rgba(255,105,180,0.8);
 }
 
-/* Glitter animation */
 @keyframes glitter {
-  0%, 100% { box-shadow: 0 0 5px 2px rgba(255,182,193,0.5); }
-  50% { box-shadow: 0 0 15px 6px rgba(255,215,230,0.9); }
+  0% { box-shadow: 0 0 5px 2px rgba(255,192,203,0.4); }
+  50% { box-shadow: 0 0 15px 6px rgba(255,215,230,0.8); }
+  100% { box-shadow: 0 0 5px 2px rgba(255,192,203,0.4); }
 }
 
 .calculator.sparkle {
   animation: glitter 1s ease-in-out;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .keypad {
     grid-template-columns: repeat(4, 60px);
-    grid-auto-rows: 60px;
+    gap: 8px;
+  }
+  .btn {
+    font-size: 18px;
+    border-radius: 30px;
   }
 }
