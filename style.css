@@ -1,11 +1,11 @@
-/* Updated style.css: blue theme and separated layout */
+/* Barbie pink theme and modern layout */
 body {
   font-family: Arial, sans-serif;
   background: #0f0f0f;
   color: #fff;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 100vh;
   margin: 0;
 }
@@ -13,35 +13,35 @@ body {
 .calculator {
   background: #1a1a1a;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #007bff;
+  border-radius: 20px;
+  box-shadow: 0 0 25px #ff69b4;
+  width: 320px;
 }
 
 .display {
   background: #000;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  font-size: 2em;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
   text-align: right;
   overflow-x: auto;
-  color: #00aaff;
 }
 
-.buttons-container {
-  display: flex;
-  gap: 15px;
+.display .history {
+  font-size: 0.8em;
+  color: #888;
+  min-height: 20px;
 }
 
-.numbers {
+.display .current {
+  font-size: 2em;
+  color: #fff;
+  min-height: 40px;
+}
+
+.keypad {
   display: grid;
-  grid-template-columns: repeat(3, 60px);
-  grid-gap: 10px;
-}
-
-.operators {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 
@@ -49,31 +49,47 @@ body {
   padding: 15px;
   font-size: 1.2em;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  border-radius: 12px;
   background: #262626;
   color: #fff;
+  cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
 }
 
 .btn:hover {
   background: #333;
-  box-shadow: 0 0 10px #007bff;
+  box-shadow: 0 0 8px #ff69b4;
 }
 
-.btn.operator {
-  background: #003366;
+.btn.operator,
+.btn.function {
+  background: #3a0027;
+}
+
+.btn.operator:hover,
+.btn.function:hover {
+  background: #4d0033;
+  box-shadow: 0 0 10px #ff69b4;
 }
 
 .btn.equal {
-  background: #004c8c;
+  background: #ff69b4;
+  color: #fff;
+}
+
+.btn.equal:hover {
+  background: #ff85c1;
+}
+
+.btn.zero {
+  grid-column: span 2;
 }
 
 @media (max-width: 500px) {
-  .numbers {
-    grid-template-columns: repeat(3, 1fr);
+  .calculator {
+    width: 90%;
   }
-  .buttons-container {
-    flex-direction: column;
+  .keypad {
+    gap: 8px;
   }
 }
