@@ -2,11 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const expressionEl = document.querySelector('.display .expression');
   const resultEl = document.querySelector('.display .result');
   const calculatorEl = document.querySelector('.calculator');
+  const themeToggleBtn = document.getElementById('theme-toggle');
+  const soundToggleBtn = document.getElementById('sound-toggle');
+
   let currentInput = '';
   let previousInput = '';
   let operator = '';
   let expression = '';
   let justComputed = false;
+  let isNight = false;
+  let soundOn = true;
 
   function updateDisplay() {
     expressionEl.textContent = expression;
@@ -24,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function appendNumber(num) {
     if (justComputed) {
-      // start new calculation after computing
       currentInput = num;
       previousInput = '';
       operator = '';
@@ -38,50 +42,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function chooseOperator(op) {
-    if (currentInput === '' && op !== '-') return;
+    if (currentInput === '' && op !== '−') return;
     if (previousInput !== '') {
       compute();
     }
     operator = op;
-    expression = `${currentInput} ${op}`;
     previousInput = currentInput;
+    expression = `${previousInput} ${operator}`;
     currentInput = '';
-    justComputed = false;
     updateDisplay();
   }
 
   function compute() {
+    if (operator === '' || currentInput === '' || previousInput === '') return;
     const prev = parseFloat(previousInput);
     const curr = parseFloat(currentInput);
-    if (isNaN(prev) || isNaN(curr)) return;
     let result;
     switch (operator) {
       case '+':
         result = prev + curr;
         break;
-      case '-':
+      case '−':
         result = prev - curr;
         break;
-      case 'x':
+      case '×':
         result = prev * curr;
         break;
       case '÷':
         result = prev / curr;
         break;
-      case '%':
-        result = prev % curr;
-        break;
       default:
         return;
     }
+    expression = `${previousInput} ${operator} ${currentInput} =`;
     currentInput = result.toString();
-    expression = `${previousInput} ${operator} ${curr} =`;
     previousInput = '';
     operator = '';
     justComputed = true;
     updateDisplay();
-
-    // glitter effect on compute
     calculatorEl.classList.add('sparkle');
     setTimeout(() => calculatorEl.classList.remove('sparkle'), 1000);
   }
@@ -98,55 +96,89 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplay();
   }
 
-  // attach event listeners to buttons
-  document.querySelectorAll('.btn').forEach(button => {
-    button.addEventListener('click', () => {
-      const value = button.getAttribute('data-value') || button.textContent.trim();
-      // add glow class
-      button.classList.add('clicked');
-      setTimeout(() => button.classList.remove('clicked'), 150);
+  function playClickSound() {
+    if (!soundOn) return;
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 800;
+    gain.gain.setValueAtTime(0.05, ctx.currentTime);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.05);
+  }
 
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      isNight = !isNight;
+      if (isNight) {
+        calculatorEl.classList.add('night');
+        calculatorEl.classList.remove('day');
+        document.body.classList.add('night');
+        document.body.classList.remove('day');
+        themeToggleBtn.textContent = '🌞';
+      } else {
+        calculatorEl.classList.remove('night');
+        calculatorEl.classList.add('day');
+        document.body.classList.remove('night');
+        document.body.classList.add('day');
+        themeToggleBtn.textContent = '🌙';
+      }
+    });
+  }
+
+  if (soundToggleBtn) {
+    soundToggleBtn.addEventListener('click', () => {
+      soundOn = !soundOn;
+      soundToggleBtn.textContent = soundOn ? '🔊' : '🔇';
+    });
+  }
+
+  const buttons = document.querySelectorAll('.keypad button');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      playClickSound();
+      btn.classList.add('clicked');
+      setTimeout(() => btn.classList.remove('clicked'), 150);
+      const value = btn.getAttribute('data-value');
       if (!isNaN(value) || value === '.') {
         appendNumber(value);
+      } else if (value === 'AC') {
+        clearAll();
+      } else if (value === '=') {
+        compute();
+      } else if (value === '±') {
+        negate();
+      } else if (value === '%') {
+        percentage();
       } else {
-        switch (value) {
-          case 'AC':
-            clearAll();
-            break;
-          case '±':
-            negate();
-            break;
-          case '%':
-            percentage();
-            break;
-          case '=':
-            compute();
-            break;
-          case '+':
-          case '-':
-          case 'x':
-          case '÷':
-            chooseOperator(value);
-            break;
-        }
+        chooseOperator(value);
       }
     });
   });
 
-  // keyboard support
-  window.addEventListener('keydown', e => {
-    if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
-      appendNumber(e.key);
-    } else if (e.key === '+' || e.key === '-') {
-      chooseOperator(e.key);
-    } else if (e.key === '*' || e.key.toLowerCase() === 'x') {
-      chooseOperator('x');
-    } else if (e.key === '/' || e.key === '÷') {
-      chooseOperator('÷');
-    } else if (e.key === 'Enter' || e.key === '=') {
+  document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    if (!isNaN(key) || key === '.') {
+      appendNumber(key);
+    } else if (['+', '-', '/', '*', 'x', '÷', '×', '−'].includes(key)) {
+      const opMap = { '*': '×', '/': '÷', '-': '−' };
+      chooseOperator(opMap[key] || key);
+    } else if (key === 'Enter' || key === '=') {
       compute();
-    } else if (e.key === 'Escape') {
+    } else if (key === 'Escape') {
       clearAll();
+    } else if (key === 'Backspace') {
+      if (justComputed) {
+        clearAll();
+      } else {
+        currentInput = currentInput.slice(0, -1);
+        updateDisplay();
+      }
+    } else if (key === '%') {
+      percentage();
     }
   });
 });
