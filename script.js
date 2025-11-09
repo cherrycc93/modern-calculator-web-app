@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let previousInput = '';
   let operator = '';
   let expression = '';
+  let justComputed = false;  // tracks if last action was "="
 
   function updateDisplay() {
     expressionEl.textContent = expression;
@@ -17,16 +18,29 @@ document.addEventListener('DOMContentLoaded', () => {
     previousInput = '';
     operator = '';
     expression = '';
+    justComputed = false;  // reset this too
     updateDisplay();
   }
 
   function appendNumber(num) {
+    // If we just finished a computation and user starts typing a number,
+    // start a brand new calculation.
+    if (justComputed) {
+      currentInput = '';
+      previousInput = '';
+      operator = '';
+      expression = '';
+      justComputed = false;
+    }
+
     if (num === '.' && currentInput.includes('.')) return;
     currentInput += num;
     updateDisplay();
   }
 
   function chooseOperator(op) {
+    justComputed = false;  // we're continuing from the last result
+
     if (currentInput === '' && previousInput === '') return;
     if (previousInput !== '') {
       compute();
@@ -43,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prev = parseFloat(previousInput);
     const current = parseFloat(currentInput);
     if (isNaN(prev) || isNaN(current)) return;
+
     switch (operator) {
       case '+':
         computation = prev + current;
@@ -64,17 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
       default:
         return;
     }
+
     currentInput = computation.toString();
     expression = `${prev} ${operator} ${current} =`;
     previousInput = '';
     operator = '';
     updateDisplay();
+
+    justComputed = true;  // mark that we just hit "="
+
     // glitter animation
     calculatorEl.classList.add('sparkle');
     setTimeout(() => {
       calculatorEl.classList.remove('sparkle');
     }, 1000);
-  }
+  } // ← this closing brace was missing
 
   function negate() {
     if (currentInput === '') return;
@@ -120,12 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
         default:
           appendNumber(value);
       }
+
       // glow + halo sparkle effect
       btn.classList.add('clicked');
       setTimeout(() => {
         btn.classList.remove('clicked');
       }, 600); // matches CSS @keyframes sparkle-fade (0.6s)
-
     });
   });
 
