@@ -15,6 +15,28 @@ body {
   padding: 30px;
   width: 360px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  position: relative;     /* NEW: needed for ::before border halo */
+}
+
+/* Optional: a gentle glitter around the calculator’s border all the time */
+.calculator::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 48px; /* a bit larger than 40px for a halo */
+  background: radial-gradient(circle, rgba(255,255,255,0.2), rgba(255,255,255,0) 70%);
+  pointer-events: none;
+  animation: sparkle-pulse 3s infinite alternate;
+}
+
+/* Slow pulse for overall glitter */
+@keyframes sparkle-pulse {
+  0%   { opacity: 0.1; }
+  50%  { opacity: 0.25; }
+  100% { opacity: 0.1; }
 }
 
 .logo {
@@ -57,6 +79,40 @@ body {
   /* enhanced 3D shadow: a darker offset shadow plus a softer drop shadow */
   box-shadow: 0 6px 0 #d4508c, 0 6px 10px rgba(0, 0, 0, 0.15);
   transition: filter 0.2s, box-shadow 0.3s, transform 0.1s;
+  
+  position: relative;   /* NEW: so ::after positions relative to the button */
+  overflow: visible;    /* NEW: let the halo extend outside the button */
+}
+
+/* Soft sparkle/halo around each button */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0) 70%);
+  opacity: 0;
+  pointer-events: none; /* so the halo doesn’t block clicks */
+  transition: opacity 0.4s ease-in-out;
+}
+
+/* Show a soft halo when the user hovers over a button */
+.btn:hover::after {
+  opacity: 0.4;
+}
+
+/* Animate the halo quickly when the button is clicked */
+.btn.clicked::after {
+  animation: sparkle-fade 0.6s forwards;
+}
+
+/* Keyframes for fading the halo out after click */
+@keyframes sparkle-fade {
+  from { opacity: 0.6; }
+  to   { opacity: 0; }
 }
 
 /* new rule: simulate pressing the button by moving it down and reducing the shadow */
