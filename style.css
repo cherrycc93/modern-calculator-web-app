@@ -1,5 +1,4 @@
 /* Barbie pink modern calculator */
-
 body {
   font-family: 'Courier New', monospace;
   background: #1a1a1a;
@@ -16,28 +15,27 @@ body {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 0 20px #ff69b4;
-  width: 340px;
+  width: 360px;
 }
 
 .display {
   background: #000;
   border-radius: 12px;
-  padding: 15px;
+  padding: 20px;
   margin-bottom: 20px;
   text-align: right;
   color: #ffb6c1;
 }
 
 .display .expression {
-  font-size: 1rem;
+  font-size: 1.2rem;
   min-height: 24px;
-  color: #ffb6c1;
 }
 
 .display .result {
   font-size: 2rem;
   font-weight: bold;
-  color: #ff69b4;
+  min-height: 30px;
 }
 
 .keypad {
@@ -47,34 +45,34 @@ body {
 }
 
 .btn {
-  font-size: 1.2rem;
-  padding: 15px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
   background: #333;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 1.2rem;
   color: #fff;
-  transition: all 0.1s ease;
-  box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+  cursor: pointer;
+  transition: filter 0.2s;
 }
 
 .btn:hover {
   filter: brightness(1.2);
 }
 
-.btn.function {
-  background: #551a8b;
-  color: #fff;
-}
-
 .btn.operator {
   background: #ff69b4;
-  color: #fff;
 }
 
 .btn.equal {
   background: #ff1493;
-  color: #fff;
+}
+
+.btn.function {
+  background: #8b008b;
+}
+
+.btn.memory {
+  background: #c71585;
 }
 
 .btn.zero {
@@ -84,8 +82,5 @@ body {
 @media (max-width: 480px) {
   .calculator {
     width: 90%;
-  }
-  .keypad {
-    grid-template-columns: repeat(4, 1fr);
   }
 }
