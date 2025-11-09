@@ -1,80 +1,120 @@
 // script.js
-// Calculator functionality with separated layout and blue theme
-window.addEventListener('DOMContentLoaded', () => {
-  const display = document.getElementById('display');
-  let current = '';
-  let previous = '';
-  let operator = '';
-
-  function updateDisplay() {
-    display.value = current || '0';
-  }
-
-  function clearAll() {
-    current = '';
-    previous = '';
-    operator = '';
-    updateDisplay();
-  }
-
-  function appendNumber(num) {
-    // avoid multiple decimals
-    if (num === '.' && current.includes('.')) return;
-    current += num;
-    updateDisplay();
-  }
-
-  function chooseOperator(op) {
-    if (current === '') return;
-    if (previous !== '') compute();
-    operator = op;
-    previous = current;
-    current = '';
-  }
-
-  function compute() {
-    const prev = parseFloat(previous);
-    const curr = parseFloat(current);
-    if (isNaN(prev) || isNaN(curr)) return;
-    let result;
-    switch (operator) {
-      case '+':
-        result = prev + curr;
-        break;
-      case '-':
-        result = prev - curr;
-        break;
-      case '*':
-        result = prev * curr;
-        break;
-      case '/':
-        result = curr === 0 ? 'Error' : prev / curr;
-        break;
-      default:
-        return;
+// Modern calculator with display history and Barbie pink theme
+document.addEventListener('DOMContentLoaded', () => {
+    const historyEl = document.querySelector('.display .history');
+    const currentEl = document.querySelector('.display .current');
+    let currentInput = '';
+    let previousInput = '';
+    let operator = '';
+    function updateDisplay() {
+        historyEl.textContent = previousInput ? `${previousInput} ${operator}` : '';
+        currentEl.textContent = currentInput || '0';
     }
-    current = result.toString();
-    operator = '';
-    previous = '';
-    updateDisplay();
-  }
-
-  // Attach event listeners to all buttons
-  document.querySelectorAll('.btn').forEach(btn => {
-    const value = btn.getAttribute('data-value');
-    btn.addEventListener('click', () => {
-      if (!value) return;
-      if ((value >= '0' && value <= '9') || value === '.') {
-        appendNumber(value);
-      } else if (value === 'C') {
-        clearAll();
-      } else if (value === '=') {
-        compute();
-      } else {
-        chooseOperator(value);
-      }
+    function clearAll() {
+        currentInput = '';
+        previousInput = '';
+        operator = '';
+        updateDisplay();
+    }
+    function appendNumber(num) {
+        if (num === '.' && currentInput.includes('.')) return;
+        currentInput += num;
+        updateDisplay();
+    }
+    function chooseOperator(op) {
+        if (currentInput === '' && previousInput === '') return;
+        if (previousInput !== '') {
+            compute();
+        }
+        operator = op;
+        previousInput = currentInput;
+        currentInput = '';
+        updateDisplay();
+    }
+    function compute() {
+        let result;
+        const prev = parseFloat(previousInput);
+        const current = parseFloat(currentInput);
+        if (isNaN(prev) || isNaN(current)) return;
+        switch (operator) {
+            case '+':
+                result = prev + current;
+                break;
+            case '-':
+                result = prev - current;
+                break;
+            case 'x':
+            case '*':
+                result = prev * current;
+                break;
+            case '/':
+            case '÷':
+                if (current === 0) {
+                    result = 'Error';
+                } else {
+                    result = prev / current;
+                }
+                break;
+            case '%':
+                result = prev % current;
+                break;
+            default:
+                return;
+        }
+        currentInput = result.toString();
+        previousInput = '';
+        operator = '';
+        updateDisplay();
+    }
+    function negate() {
+        if (currentInput === '') return;
+        currentInput = (parseFloat(currentInput) * -1).toString();
+        updateDisplay();
+    }
+    function percentage() {
+        if (currentInput === '') return;
+        currentInput = (parseFloat(currentInput) / 100).toString();
+        updateDisplay();
+    }
+    // Attach click events
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const value = btn.getAttribute('data-value');
+            if (!value) return;
+            if ((value >= '0' && value <= '9') || value === '.') {
+                appendNumber(value);
+            } else if (value === 'AC') {
+                clearAll();
+            } else if (value === 'negate') {
+                negate();
+            } else if (value === '%') {
+                percentage();
+            } else if (value === '=') {
+                compute();
+            } else {
+                // operator
+                chooseOperator(value);
+            }
+        });
     });
-  });
-
-  clearAll();
+    // Keyboard support
+    document.addEventListener('keydown', e => {
+        if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
+            appendNumber(e.key);
+        } else if (e.key === 'Escape') {
+            clearAll();
+        } else if (e.key === 'Enter' || e.key === '=') {
+            e.preventDefault();
+            compute();
+        } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === 'x' || e.key === '/' || e.key === '÷') {
+            chooseOperator(e.key);
+        } else if (e.key === '%') {
+            percentage();
+        } else if (e.key === 'Backspace') {
+            // remove last char
+            currentInput = currentInput.slice(0, -1);
+            updateDisplay();
+        }
+    });
+    updateDisplay();
 });
