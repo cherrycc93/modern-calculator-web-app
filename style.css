@@ -178,6 +178,32 @@ body {
 body.day {
   background: #fecde4;
 }
+/* Midnight Glam dark mode theme */
+body.night {
+  background: linear-gradient(to bottom, #4b004d, #0a0010);
+}
+
+.calculator.night {
+  background: #d4006a;
+}
+
+.calculator.night .btn {
+  background: #b00050;
+  color: #ffffff;
+  box-shadow: 0 6px 0 #7d0036, 0 6px 10px rgba(0, 0, 0, 0.5);
+}
+
+.calculator.night .btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #7d0036, 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.calculator.night .btn.operator,
+.calculator.night .btn.function,
+.calculator.night .btn.equal {
+  background: #c70063;
+}
+
 .calculator.night {
   background: #8b004c;
 }
@@ -192,4 +218,26 @@ body.night {
 .calculator.night .btn.function,
 .calculator.night .btn.equal {
   background: #d4006a;
+}
+
+/* Midnight Glam dark mode override */
+body.night {
+  background: linear-gradient(to bottom, #4b004d, #0a0010);
+}
+.calculator.night {
+  background: #d4006a;
+}
+.calculator.night .btn {
+  background: #b00050;
+  color: #ffffff;
+  box-shadow: 0 6px 0 #7d0036, 0 6px 10px rgba(0,0,0,0.5);
+}
+.calculator.night .btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #7d0036, 0 2px 4px rgba(0,0,0,0.5);
+}
+.calculator.night .btn.operator,
+.calculator.night .btn.function,
+.calculator.night .btn.equal {
+  background: #c70063;
 }
