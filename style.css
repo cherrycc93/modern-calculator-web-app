@@ -1,65 +1,79 @@
-/* style.css */
+/* Updated style.css: blue theme and separated layout */
 body {
-    font-family: Arial, sans-serif;
-    background: #0f0f0f;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
 }
 
 .calculator {
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #00ffea;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #007bff;
 }
 
 .display {
-    background: #000;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 2em;
-    text-align: right;
-    overflow-x: auto;
+  background: #000;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 2em;
+  text-align: right;
+  overflow-x: auto;
+  color: #00aaff;
 }
 
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 60px);
-    grid-gap: 10px;
+.buttons-container {
+  display: flex;
+  gap: 15px;
 }
 
-button {
-    padding: 15px;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background: #262626;
-    color: #fff;
-    transition: background 0.2s, box-shadow 0.2s;
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-gap: 10px;
 }
 
-button:hover {
-    background: #333;
-    box-shadow: 0 0 10px #00ffea;
+.operators {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-button.operator {
-    background: #004d40;
+.btn {
+  padding: 15px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #262626;
+  color: #fff;
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
-button.equal {
-    background: #00695c;
-    grid-column: span 2;
+.btn:hover {
+  background: #333;
+  box-shadow: 0 0 10px #007bff;
+}
+
+.btn.operator {
+  background: #003366;
+}
+
+.btn.equal {
+  background: #004c8c;
 }
 
 @media (max-width: 500px) {
-    .buttons {
-        grid-template-columns: repeat(4, 1fr);
-    }
+  .numbers {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .buttons-container {
+    flex-direction: column;
+  }
 }
