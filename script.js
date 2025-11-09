@@ -120,11 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
         default:
           appendNumber(value);
       }
-      // glow effect
+      // glow + halo sparkle effect
       btn.classList.add('clicked');
       setTimeout(() => {
         btn.classList.remove('clicked');
-      }, 150);
+      }, 600); // matches CSS @keyframes sparkle-fade (0.6s)
+
     });
   });
 
