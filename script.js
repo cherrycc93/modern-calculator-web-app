@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
   const expressionEl = document.querySelector('.display .expression');
   const resultEl = document.querySelector('.display .result');
+  const calculatorEl = document.querySelector('.calculator');
   let currentInput = '';
   let previousInput = '';
   let operator = '';
   let expression = '';
-  let memory = 0;
 
   function updateDisplay() {
     expressionEl.textContent = expression;
@@ -39,41 +39,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function compute() {
-    let result;
+    let computation;
     const prev = parseFloat(previousInput);
     const current = parseFloat(currentInput);
     if (isNaN(prev) || isNaN(current)) return;
     switch (operator) {
       case '+':
-        result = prev + current;
+        computation = prev + current;
         break;
       case '-':
-        result = prev - current;
+        computation = prev - current;
         break;
       case 'x':
-      case '*':
-        result = prev * current;
+      case '×':
+        computation = prev * current;
         break;
-      case '/':
       case '÷':
-        result = current === 0 ? 'Error' : prev / current;
+      case '/':
+        computation = prev / current;
         break;
       case '%':
-        result = prev % current;
+        computation = prev % current;
         break;
       default:
         return;
     }
-    expression = `${previousInput} ${operator} ${currentInput}`;
-    currentInput = result.toString();
+    currentInput = computation.toString();
+    expression = `${prev} ${operator} ${current} =`;
     previousInput = '';
     operator = '';
     updateDisplay();
+    // glitter animation
+    calculatorEl.classList.add('sparkle');
+    setTimeout(() => {
+      calculatorEl.classList.remove('sparkle');
+    }, 1000);
   }
 
   function negate() {
     if (currentInput === '') return;
-    currentInput = (parseFloat(currentInput) * -1).toString();
+    if (currentInput.startsWith('-')) {
+      currentInput = currentInput.slice(1);
+    } else {
+      currentInput = '-' + currentInput;
+    }
     updateDisplay();
   }
 
@@ -83,71 +92,62 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDisplay();
   }
 
-  // Memory functions
-  function memoryClear() {
-    memory = 0;
-  }
-
-  function memoryRecall() {
-    currentInput = memory.toString();
-    updateDisplay();
-  }
-
-  function memoryAdd() {
-    memory += parseFloat(currentInput || '0');
-  }
-
-  function memorySubtract() {
-    memory -= parseFloat(currentInput || '0');
-  }
-
-  // Attach click events
-  document.querySelectorAll('.btn').forEach(btn => {
+  const buttons = document.querySelectorAll('.btn');
+  buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       const value = btn.getAttribute('data-value');
-      if (!value) return;
-      if ((value >= '0' && value <= '9') || value === '.') {
-        appendNumber(value);
-      } else if (value === 'AC') {
-        clearAll();
-      } else if (value === 'negate') {
-        negate();
-      } else if (value === '%') {
-        percentage();
-      } else if (value === '=') {
-        compute();
-      } else if (value === 'MC') {
-        memoryClear();
-      } else if (value === 'MR') {
-        memoryRecall();
-      } else if (value === 'M+') {
-        memoryAdd();
-      } else if (value === 'M-') {
-        memorySubtract();
-      } else {
-        chooseOperator(value);
+      switch (value) {
+        case 'AC':
+          clearAll();
+          break;
+        case 'negate':
+          negate();
+          break;
+        case '%':
+          percentage();
+          break;
+        case '+':
+        case '-':
+        case 'x':
+        case '×':
+        case '÷':
+        case '/':
+          chooseOperator(value);
+          break;
+        case '=':
+          compute();
+          break;
+        default:
+          appendNumber(value);
       }
+      // glow effect
+      btn.classList.add('clicked');
+      setTimeout(() => {
+        btn.classList.remove('clicked');
+      }, 150);
     });
   });
 
-  // Keyboard support
-  document.addEventListener('keydown', e => {
+  // keyboard support
+  document.addEventListener('keydown', (e) => {
     if ((e.key >= '0' && e.key <= '9') || e.key === '.') {
       appendNumber(e.key);
-    } else if (e.key === 'Escape') {
-      clearAll();
-    } else if (e.key === 'Enter' || e.key === '=') {
-      e.preventDefault();
+    }
+    if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/' || e.key === '%') {
+      let op = e.key;
+      if (op === '*') op = 'x';
+      if (op === '/') op = '÷';
+      chooseOperator(op);
+    }
+    if (e.key === 'Enter' || e.key === '=') {
       compute();
-    } else if (['+', '-', '*', 'x', '/', '÷'].includes(e.key)) {
-      chooseOperator(e.key);
-    } else if (e.key === '%') {
-      percentage();
-    } else if (e.key === 'Backspace') {
+    }
+    if (e.key === 'Escape') {
+      clearAll();
+    }
+    if (e.key === 'Backspace') {
       currentInput = currentInput.slice(0, -1);
       updateDisplay();
     }
   });
-
-  updateDisplay();
 });
