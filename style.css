@@ -1,86 +1,111 @@
-/* Barbie pink modern calculator */
+/* Barbie pink gradient modern calculator */
 body {
-  font-family: 'Courier New', monospace;
-  background: #1a1a1a;
-  color: #fff;
+  margin: 0;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  font-family: 'Courier New', monospace;
+  background: linear-gradient(135deg, #f8bbd0, #ff69b4, #b76e79);
 }
 
 .calculator {
-  background: #262626;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 0 20px #ff69b4;
-  width: 360px;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
 }
 
 .display {
-  background: #000;
-  border-radius: 12px;
-  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 15px;
+  padding: 10px 15px;
   margin-bottom: 20px;
+  color: #fff;
+  font-size: 24px;
   text-align: right;
-  color: #ffb6c1;
+  min-width: 300px;
 }
 
 .display .expression {
-  font-size: 1.2rem;
-  min-height: 24px;
+  font-size: 20px;
+  opacity: 0.8;
 }
 
 .display .result {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: bold;
-  min-height: 30px;
 }
 
 .keypad {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 70px);
+  grid-auto-rows: 70px;
   gap: 10px;
 }
 
 .btn {
-  background: #333;
   border: none;
-  border-radius: 10px;
-  padding: 15px;
-  font-size: 1.2rem;
+  border-radius: 35px;
+  font-size: 20px;
   color: #fff;
   cursor: pointer;
-  transition: filter 0.2s;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
 }
 
-.btn:hover {
-  filter: brightness(1.2);
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.6), rgba(255,255,255,0));
+  opacity: 0;
+  transition: opacity 0.4s;
 }
 
+.btn:hover::after {
+  opacity: 0.1;
+}
+
+.btn.function,
 .btn.operator {
-  background: #ff69b4;
+  background: rgba(255, 105, 180, 0.5);
 }
 
 .btn.equal {
-  background: #ff1493;
-}
-
-.btn.function {
-  background: #8b008b;
-}
-
-.btn.memory {
-  background: #c71585;
+  background: rgba(255, 20, 147, 0.7);
+  font-size: 26px;
 }
 
 .btn.zero {
   grid-column: span 2;
 }
 
-@media (max-width: 480px) {
-  .calculator {
-    width: 90%;
+/* Glow effect on click */
+.btn.clicked {
+  box-shadow: 0 0 10px 5px rgba(255, 105, 180, 0.8);
+}
+
+/* Glitter animation */
+@keyframes glitter {
+  0%, 100% { box-shadow: 0 0 5px 2px rgba(255,182,193,0.5); }
+  50% { box-shadow: 0 0 15px 6px rgba(255,215,230,0.9); }
+}
+
+.calculator.sparkle {
+  animation: glitter 1s ease-in-out;
+}
+
+@media (max-width: 500px) {
+  .keypad {
+    grid-template-columns: repeat(4, 60px);
+    grid-auto-rows: 60px;
   }
 }
