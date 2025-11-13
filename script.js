@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function chooseOperator(op) {
-    if (currentInput === '' && op !== '−') return;
+    if (currentInput === '' && previousInput === '' && op !== '−') return;
     if (previousInput !== '') {
       compute();
     }
@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!isNaN(key) || key === '.') {
       appendNumber(key);
     } else if (['+', '-', '/', '*', 'x', '÷', '×', '−'].includes(key)) {
-      const opMap = { '*': '×', '/': '÷', '-': '−' };
+      const opMap = { '*': '×', 'x': '×', '/': '÷', '-': '−' };
       chooseOperator(opMap[key] || key);
     } else if (key === 'Enter' || key === '=') {
       compute();
