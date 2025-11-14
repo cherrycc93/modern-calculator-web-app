@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     previousInput = currentInput;
     expression = `${previousInput} ${operator}`;
     currentInput = '';
+    justComputed = false;
     updateDisplay();
   }
 
@@ -87,12 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function negate() {
     if (currentInput === '') return;
     currentInput = (parseFloat(currentInput) * -1).toString();
+    justComputed = false;
     updateDisplay();
   }
 
   function percentage() {
     if (currentInput === '') return;
     currentInput = (parseFloat(currentInput) / 100).toString();
+    justComputed = false;
     updateDisplay();
   }
 
