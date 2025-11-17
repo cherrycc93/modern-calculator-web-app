@@ -8,16 +8,121 @@
 </head>
 <body>
   <div class="calculator day">
-    <div class="logo">GlamCalc</div>
+    <div class="theme-selector">
+      <button class="theme-btn pink-btn" data-theme="theme-barbie-day" aria-label="Pink Blush" title="Pink Blush">
+        <svg class="theme-heart" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="velvetTexture">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" seed="2" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+            </filter>
+          </defs>
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="#ff5fa2" filter="url(#velvetTexture)" opacity="0.95" />
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="url(#pinkGradient)" filter="url(#velvetTexture)" />
+          <defs>
+            <linearGradient id="pinkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#ffb3d9;stop-opacity:0.6" />
+              <stop offset="50%" style="stop-color:#ff8cc6;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#ff6fb5;stop-opacity:0.7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </button>
+      <button class="theme-btn night-btn" data-theme="theme-midnight" aria-label="Deep Night" title="Deep Night">
+        <svg class="theme-heart" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="velvetTexture2">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" seed="2" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+            </filter>
+          </defs>
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="#1a0033" filter="url(#velvetTexture2)" opacity="0.95" />
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="url(#darkBlueGradient)" filter="url(#velvetTexture2)" />
+          <defs>
+            <linearGradient id="darkBlueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#4a7ba7;stop-opacity:0.6" />
+              <stop offset="50%" style="stop-color:#2d5a8c;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#1a3a5c;stop-opacity:0.7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </button>
+      <button class="theme-btn rose-gold-btn" data-theme="theme-rose-gold" aria-label="Warm Sunset" title="Warm Sunset">
+        <svg class="theme-heart" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="velvetTexture3">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" seed="2" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+            </filter>
+          </defs>
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="#d4a574" filter="url(#velvetTexture3)" opacity="0.95" />
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="url(#rosegoldGradient)" filter="url(#velvetTexture3)" />
+          <defs>
+            <linearGradient id="rosegoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#e8b4b8;stop-opacity:0.6" />
+              <stop offset="50%" style="stop-color:#d4949c;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#c07080;stop-opacity:0.7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </button>
+      <button class="theme-btn purple-btn" data-theme="theme-galaxy" aria-label="Cosmic Dreams" title="Cosmic Dreams">
+        <svg class="theme-heart" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="velvetTexture4">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" result="noise" seed="2" />
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" />
+            </filter>
+          </defs>
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="#6a5acd" filter="url(#velvetTexture4)" opacity="0.95" />
+          <path d="M50,85 C20,65 5,50 5,40 C5,28 15,18 25,18 C35,18 45,28 50,38 C55,28 65,18 75,18 C85,18 95,28 95,40 C95,50 80,65 50,85 Z" 
+                fill="url(#purpleGradient)" filter="url(#velvetTexture4)" />
+          <defs>
+            <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:0.6" />
+              <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:0.8" />
+              <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:0.7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </button>
+    </div>
+    <div class="logo">
+      <span class="logo-glam">Glam</span><span class="logo-sparkle">✨</span><span class="logo-calc">Calc</span>
+    </div>
     <div class="controls">
-      <button id="theme-toggle" class="control-btn" aria-label="Toggle Day/Night">🌙</button>
+      <button id="mode-toggle" class="control-btn mode-btn" aria-label="Toggle Advanced Mode" title="Toggle Advanced Mode">🔧</button>
       <button id="sound-toggle" class="control-btn" aria-label="Toggle Sound">🔊</button>
     </div>
     <div class="display">
       <div id="expression" class="expression"></div>
       <div id="result" class="result">0</div>
     </div>
-    <div class="keypad">
+
+    <!-- Scientific Toolbar (Always visible, toggles content) -->
+    <div class="scientific-toolbar">
+      <button class="btn sci-btn" data-value="sin">sin</button>
+      <button class="btn sci-btn" data-value="cos">cos</button>
+      <button class="btn sci-btn" data-value="tan">tan</button>
+      <button class="btn sci-btn" data-value="log">log</button>
+      <button class="btn sci-btn" data-value="ln">ln</button>
+      <button class="btn sci-btn" data-value="1/x">1/x</button>
+      <button class="btn sci-btn" data-value="√">√</button>
+      <button class="btn sci-btn" data-value="x²">x²</button>
+      <button class="btn sci-btn" data-value="π">π</button>
+      <button class="btn sci-btn" data-value="e">e</button>
+    </div>
+
+    <!-- Keypad and Advanced Functions Container -->
+    <div class="keypad-container">
+      <div class="keypad">
       <button class="btn function" data-value="AC">AC</button>
       <button class="btn function" data-value="±">±</button>
       <button class="btn function" data-value="%">%</button>
@@ -41,8 +146,36 @@
       <button class="btn number zero" data-value="0">0</button>
       <button class="btn number" data-value=".">.</button>
       <button class="btn equal" data-value="=">=</button>
+
+      <!-- Elegant History Button -->
+      <button id="history-tab-btn" class="btn history-btn" aria-label="History">
+        <span class="history-tab-icon">📜</span>
+        <span class="history-tab-text">History</span>
+      </button>
+      </div>
+
+      <!-- Advanced Functions Column (shows in advanced mode) -->
+      <div class="advanced-column">
+        <button class="btn memory-btn" id="mc-btn" data-value="MC">MC</button>
+        <button class="btn memory-btn" id="mr-btn" data-value="MR">MR</button>
+        <button class="btn memory-btn" id="mplus-btn" data-value="M+">M+</button>
+        <button class="btn memory-btn" id="mminus-btn" data-value="M−">M−</button>
+      </div>
     </div>
   </div>
+
+  <!-- History Panel -->
+  <div id="history-panel" class="history-panel">
+    <div class="history-header">
+      <h2>History</h2>
+      <button id="history-close" class="history-close" aria-label="Close History">✕</button>
+    </div>
+    <div id="history-list" class="history-list"></div>
+    <button id="history-clear" class="history-clear">Clear History</button>
+  </div>
+
+  <!-- History overlay -->
+  <div id="history-overlay" class="history-overlay"></div>
 
   <script src="script.js"></script>
 </body>

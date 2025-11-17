@@ -5,20 +5,54 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 0;
   background: #fecde4; /* pastel pink */
   font-family: 'Arial', sans-serif;
 }
 
 .calculator {
   background: #ff5fa2; /* main pink body */
-  border-radius: 40px;
-  padding: 30px;
-  width: 360px;
+  border-radius: 35px;
+  padding: 20px;
+  width: 320px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  position: relative;     /* NEW: needed for ::before border halo */
+  position: relative;
+  transition: width 0.5s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Optional: a gentle glitter around the calculator’s border all the time */
+/* Advanced Mode: Extend the calculator layout */
+.calculator.advanced-mode {
+  width: 520px;
+}
+
+/* Container for keypad and advanced functions side-by-side */
+.keypad-container {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* Advanced Functions Column (hidden in simple mode) */
+.advanced-column {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 65px;
+  gap: 12px;
+  opacity: 0;
+  max-width: 0;
+  transition: opacity 0.3s ease, max-width 0.3s ease;
+  overflow: hidden;
+}
+
+/* Show advanced column in advanced mode */
+.calculator.advanced-mode .advanced-column {
+  opacity: 1;
+  max-width: 70px;
+}
+
+/* Optional: a gentle glitter around the calculator's border all the time */
 .calculator::before {
   content: '';
   position: absolute;
@@ -40,37 +74,116 @@ body {
 }
 
 .logo {
-  font-size: 48px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 12px;
+}
+
+/* "Glam" - Fancy, curvy, luxe style */
+.logo-glam {
+  font-family: 'Georgia', 'Garamond', serif;
+  font-size: 22px;
+  font-weight: 900;
+  font-style: italic;
+  background: linear-gradient(135deg, #ff5fa2 0%, #ffb3d9 50%, #d4949c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(255, 95, 162, 0.4);
+  filter: drop-shadow(0 0 8px rgba(255, 95, 162, 0.3));
+  letter-spacing: -0.5px;
+}
+
+/* Sparkle separator */
+.logo-sparkle {
+  font-size: 16px;
+  margin: 0 3px;
+  animation: sparkle-twinkle 1.5s ease-in-out infinite;
+}
+
+@keyframes sparkle-twinkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* "Calc" - Modern, geometric, crisp tech style */
+.logo-calc {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
   color: #fff;
-  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
 .display {
-  padding: 20px 10px;
+  padding: 15px 10px;
   color: #fff;
-  height: 80px;
+  height: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
 }
 
-.display .expression { font-size: 32px; }
-.display .result     { font-size: 48px; font-weight: bold; }
+.display .expression { font-size: 24px; }
+.display .result     { font-size: 36px; font-weight: bold; }
 
 .keypad {
-  margin-top: 10px;
+  margin-top: 8px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 80px;
-  gap: 15px;
+  grid-auto-rows: 65px;
+  gap: 12px;
+}
+
+/* Scientific Toolbar */
+.scientific-toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease, max-height 0.4s ease, margin-bottom 0.4s ease;
+}
+
+.calculator.advanced-mode .scientific-toolbar {
+  opacity: 1;
+  max-height: 150px;
+  margin-bottom: 12px;
+}
+
+.sci-btn {
+  width: 55px !important;
+  height: 55px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+  font-size: 11px !important;
+  font-weight: 600;
+  text-align: center;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+/* Memory buttons in advanced column */
+.memory-btn {
+  width: 65px !important;
+  height: 65px !important;
+  font-size: 13px !important;
+  font-weight: 700;
 }
 
 .btn {
   border: none;
   border-radius: 50%; /* Circular lollipop shape */
-  font-size: 32px;
+  font-size: 24px;
   color: #fff;
   background: linear-gradient(135deg, #ffb3d9 0%, #ff8cc6 50%, #ff6fb5 100%); /* Glossy candy gradient */
   display: flex;
@@ -79,30 +192,30 @@ body {
   cursor: pointer;
   /* Lollipop stick shadow effect */
   box-shadow:
-    0 8px 0 #d4508c,  /* stick shadow */
-    0 10px 20px rgba(0, 0, 0, 0.2),  /* depth */
+    0 6px 0 #d4508c,  /* stick shadow */
+    0 8px 15px rgba(0, 0, 0, 0.2),  /* depth */
     inset 0 -3px 8px rgba(0, 0, 0, 0.2),  /* inner shadow */
     inset 0 3px 12px rgba(255, 255, 255, 0.4);  /* glossy highlight */
   transition: filter 0.2s, box-shadow 0.3s, transform 0.1s;
 
   position: relative;   /* NEW: so ::after positions relative to the button */
   overflow: visible;    /* NEW: let the halo extend outside the button */
-  width: 80px;
-  height: 80px;
+  width: 65px;
+  height: 65px;
 }
 
 /* Soft sparkle/halo around each button */
 .btn::after {
   content: '';
   position: absolute;
-  top: -6px;
-  left: -6px;
-  right: -6px;
-  bottom: -6px;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
   border-radius: inherit;
   background: radial-gradient(circle, rgba(255,255,255,0.6), rgba(255,255,255,0) 70%);
   opacity: 0;
-  pointer-events: none; /* so the halo doesn’t block clicks */
+  pointer-events: none; /* so the halo doesn't block clicks */
   transition: opacity 0.4s ease-in-out;
 }
 
@@ -268,4 +381,498 @@ body.night {
 .calculator.night .btn.function,
 .calculator.night .btn.equal {
   background: linear-gradient(135deg, #e6007a 0%, #c70063 50%, #a0004d 100%);
+}
+
+/* ===== MOOD-BASED THEMES ===== */
+
+/* Theme 1: Barbie Office Day (Default) */
+body.theme-barbie-day {
+  background: #fecde4;
+}
+.calculator.theme-barbie-day {
+  background: #ff5fa2;
+}
+.calculator.theme-barbie-day .btn {
+  background: linear-gradient(135deg, #ffb3d9 0%, #ff8cc6 50%, #ff6fb5 100%);
+  box-shadow:
+    0 8px 0 #d4508c,
+    0 10px 20px rgba(0, 0, 0, 0.2),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.2),
+    inset 0 3px 12px rgba(255, 255, 255, 0.4);
+}
+.calculator.theme-barbie-day .btn:active {
+  box-shadow:
+    0 2px 0 #d4508c,
+    0 3px 8px rgba(0, 0, 0, 0.2),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.3),
+    inset 0 2px 8px rgba(255, 255, 255, 0.3);
+}
+.calculator.theme-barbie-day .btn.operator,
+.calculator.theme-barbie-day .btn.function,
+.calculator.theme-barbie-day .btn.equal {
+  background: linear-gradient(135deg, #ff9fcf 0%, #ff6fb5 50%, #ff4d9f 100%);
+}
+
+/* Logo styling for barbie-day theme */
+.calculator.theme-barbie-day .logo-glam {
+  background: linear-gradient(135deg, #ff5fa2 0%, #ffb3d9 50%, #d4949c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(255, 95, 162, 0.4));
+}
+
+.calculator.theme-barbie-day .logo-sparkle {
+  color: #ff5fa2;
+}
+
+.calculator.theme-barbie-day .logo-calc {
+  color: #fff;
+}
+
+/* Theme 2: Midnight Glam (Dark Blue) */
+body.theme-midnight {
+  background: linear-gradient(135deg, #1a3a6c 0%, #0d1f3d 100%);
+}
+.calculator.theme-midnight {
+  background: #2d5a8c;
+}
+.calculator.theme-midnight .btn {
+  background: linear-gradient(135deg, #4a7ba7 0%, #2d5a8c 50%, #1a3a5c 100%);
+  color: #ffffff;
+  box-shadow:
+    0 8px 0 #0f2e4d,
+    0 10px 20px rgba(0, 0, 0, 0.8),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.5),
+    inset 0 3px 12px rgba(135, 200, 255, 0.3);
+}
+.calculator.theme-midnight .btn:active {
+  box-shadow:
+    0 2px 0 #0f2e4d,
+    0 3px 8px rgba(0, 0, 0, 0.8),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.6),
+    inset 0 2px 8px rgba(135, 200, 255, 0.2);
+}
+.calculator.theme-midnight .btn.operator,
+.calculator.theme-midnight .btn.function,
+.calculator.theme-midnight .btn.equal {
+  background: linear-gradient(135deg, #5a8fc7 0%, #4a7ba7 50%, #2d5a8c 100%);
+}
+
+/* Logo styling for midnight theme */
+.calculator.theme-midnight .logo-glam {
+  background: linear-gradient(135deg, #87ceeb 0%, #4a9eff 50%, #2d8cc4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(74, 123, 167, 0.5));
+}
+
+.calculator.theme-midnight .logo-sparkle {
+  color: #87ceeb;
+}
+
+.calculator.theme-midnight .logo-calc {
+  color: #fff;
+}
+
+/* Theme 3: Rose Gold Champagne */
+body.theme-rose-gold {
+  background: linear-gradient(135deg, #fff5e6 0%, #ffe8d6 100%);
+}
+.calculator.theme-rose-gold {
+  background: linear-gradient(135deg, #e8b4b8 0%, #d4949c 100%);
+}
+.calculator.theme-rose-gold .btn {
+  background: linear-gradient(135deg, #f4c2c2 0%, #e8a8a8 50%, #d47a7a 100%);
+  color: #5c3d3d;
+  box-shadow:
+    0 8px 0 #b8696e,
+    0 10px 20px rgba(0, 0, 0, 0.15),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.1),
+    inset 0 3px 12px rgba(255, 255, 255, 0.5);
+}
+.calculator.theme-rose-gold .btn:active {
+  box-shadow:
+    0 2px 0 #b8696e,
+    0 3px 8px rgba(0, 0, 0, 0.15),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.2),
+    inset 0 2px 8px rgba(255, 255, 255, 0.4);
+}
+.calculator.theme-rose-gold .btn.operator,
+.calculator.theme-rose-gold .btn.function,
+.calculator.theme-rose-gold .btn.equal {
+  background: linear-gradient(135deg, #e8a8a8 0%, #d47a7a 50%, #c04d4d 100%);
+}
+.calculator.theme-rose-gold .display {
+  color: #5c3d3d;
+}
+
+/* Logo styling for rose-gold theme */
+.calculator.theme-rose-gold .logo-glam {
+  background: linear-gradient(135deg, #d4949c 0%, #e8b4b8 50%, #f0c4c8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(212, 149, 156, 0.4));
+}
+
+.calculator.theme-rose-gold .logo-sparkle {
+  color: #d4949c;
+}
+
+.calculator.theme-rose-gold .logo-calc {
+  color: #5c3d3d;
+}
+
+/* Theme 4: Galaxy Glitter */
+body.theme-galaxy {
+  background: linear-gradient(135deg, #0a0e27 0%, #16213e 50%, #1a0033 100%);
+}
+.calculator.theme-galaxy {
+  background: linear-gradient(135deg, #1a0e3f 0%, #2d0852 50%, #1f1045 100%);
+}
+.calculator.theme-galaxy .btn {
+  background: linear-gradient(135deg, #6a5acd 0%, #9932cc 50%, #ba55d3 100%);
+  color: #ffffff;
+  box-shadow:
+    0 8px 0 #4b0082,
+    0 10px 20px rgba(138, 43, 226, 0.4),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.4),
+    inset 0 3px 12px rgba(255, 215, 0, 0.2);
+}
+.calculator.theme-galaxy .btn:active {
+  box-shadow:
+    0 2px 0 #4b0082,
+    0 3px 8px rgba(138, 43, 226, 0.4),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.5),
+    inset 0 2px 8px rgba(255, 215, 0, 0.15);
+}
+.calculator.theme-galaxy .btn.operator,
+.calculator.theme-galaxy .btn.function,
+.calculator.theme-galaxy .btn.equal {
+  background: linear-gradient(135deg, #9932cc 0%, #ba55d3 50%, #da70d6 100%);
+}
+
+/* Logo styling for galaxy theme */
+.calculator.theme-galaxy .logo-glam {
+  background: linear-gradient(135deg, #9d4edd 0%, #c77dff 50%, #e0aaff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 10px rgba(157, 78, 221, 0.5));
+}
+
+.calculator.theme-galaxy .logo-sparkle {
+  color: #c77dff;
+}
+
+.calculator.theme-galaxy .logo-calc {
+  color: #fff;
+}
+
+/* Theme selector styling with circular buttons */
+.theme-selector {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.theme-btn {
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 24px;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 0;
+}
+
+.theme-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-btn.active {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+  transform: scale(1.15);
+}
+
+.theme-btn:active {
+  transform: scale(0.95);
+}
+
+/* Custom velvet heart SVG styling */
+.theme-heart {
+  width: 28px;
+  height: 28px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* ===== HISTORY BUTTON IN KEYPAD ===== */
+
+.history-btn {
+  grid-column: 1 / -1;  /* Span all columns */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.35), rgba(212, 149, 156, 0.35)) !important;
+  border: 1.5px solid rgba(255, 95, 162, 0.6) !important;
+  border-radius: 15px !important;
+  color: #ff5fa2;
+  padding: 0 14px !important;
+  font-weight: 600;
+  font-size: 12px;
+  box-shadow: 0 3px 12px rgba(255, 95, 162, 0.15) !important;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  height: 36px !important;
+  width: fit-content !important;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.history-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.45), rgba(212, 149, 156, 0.45)) !important;
+  border-color: rgba(255, 95, 162, 0.8) !important;
+  box-shadow: 0 4px 16px rgba(255, 95, 162, 0.3), 0 0 12px rgba(255, 95, 162, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+.history-btn:active {
+  transform: translateY(0);
+  animation: sparkle-fade 0.6s;
+}
+
+.history-tab-icon {
+  font-size: 14px;
+  animation: glow-pulse 2s infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 0 rgba(255, 95, 162, 0); }
+  50% { opacity: 1; text-shadow: 0 0 12px rgba(255, 95, 162, 0.5); }
+}
+
+.history-tab-text {
+  font-size: 10px;
+  letter-spacing: 0.2px;
+}
+
+/* Theme-specific history button colors */
+.calculator.theme-barbie-day .history-btn {
+  border-color: rgba(255, 95, 162, 0.8) !important;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.55), rgba(255, 111, 181, 0.5)) !important;
+}
+
+.calculator.theme-barbie-day .history-btn:hover {
+  box-shadow: 0 4px 16px rgba(255, 95, 162, 0.4), 0 0 12px rgba(255, 95, 162, 0.3) !important;
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.65), rgba(255, 111, 181, 0.6)) !important;
+}
+
+.calculator.theme-midnight .history-btn {
+  border-color: rgba(74, 123, 167, 0.6) !important;
+  color: #4a7ba7;
+  background: linear-gradient(135deg, rgba(74, 123, 167, 0.3), rgba(45, 90, 140, 0.3)) !important;
+}
+
+.calculator.theme-midnight .history-btn:hover {
+  box-shadow: 0 4px 16px rgba(74, 123, 167, 0.3), 0 0 12px rgba(74, 123, 167, 0.2) !important;
+}
+
+.calculator.theme-rose-gold .history-btn {
+  border-color: rgba(212, 149, 156, 0.85) !important;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(212, 149, 156, 0.6), rgba(192, 112, 128, 0.55)) !important;
+}
+
+.calculator.theme-rose-gold .history-btn:hover {
+  box-shadow: 0 4px 16px rgba(212, 149, 156, 0.4), 0 0 12px rgba(212, 149, 156, 0.3) !important;
+  background: linear-gradient(135deg, rgba(212, 149, 156, 0.7), rgba(192, 112, 128, 0.65)) !important;
+}
+
+.calculator.theme-galaxy .history-btn {
+  border-color: rgba(137, 76, 255, 0.6) !important;
+  color: #9d4edd;
+  background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(109, 40, 217, 0.3)) !important;
+}
+
+.calculator.theme-galaxy .history-btn:hover {
+  box-shadow: 0 4px 16px rgba(157, 78, 221, 0.3), 0 0 12px rgba(157, 78, 221, 0.2) !important;
+}
+
+/* OLD HISTORY TAB - NO LONGER USED */
+.history-tab {
+  display: none;
+}
+
+/* ===== HISTORY PANEL ===== */
+
+.history-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-size: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.history-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.history-panel {
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 380px;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.history-panel.open {
+  right: 0;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.1), rgba(212, 149, 156, 0.1));
+}
+
+.history-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.history-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s;
+}
+
+.history-close:hover {
+  color: #ff5fa2;
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.history-item {
+  background: white;
+  border: 1px solid rgba(255, 95, 162, 0.2);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.history-item:hover {
+  background: rgba(255, 95, 162, 0.1);
+  transform: translateX(-5px);
+  box-shadow: 0 4px 12px rgba(255, 95, 162, 0.2);
+  border-color: rgba(255, 95, 162, 0.4);
+}
+
+.history-item-expression {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.history-item-result {
+  font-size: 1.3em;
+  color: #ff5fa2;
+  font-weight: bold;
+}
+
+.history-empty {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+  font-size: 0.95em;
+}
+
+.history-clear {
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.2), rgba(255, 111, 181, 0.2));
+  border: 2px solid rgba(255, 95, 162, 0.4);
+  color: #ff5fa2;
+  padding: 12px 20px;
+  margin: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.history-clear:hover {
+  background: linear-gradient(135deg, rgba(255, 95, 162, 0.3), rgba(255, 111, 181, 0.3));
+  border-color: rgba(255, 95, 162, 0.6);
+  box-shadow: 0 4px 12px rgba(255, 95, 162, 0.2);
+}
+
+.history-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  z-index: 999;
+  transition: background 0.3s ease;
+  pointer-events: none;
+}
+
+.history-overlay.open {
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: all;
 }

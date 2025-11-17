@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlamCalc - Comprehensive Tests</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .test-section {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-section h2 {
+      color: #333;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .test-item {
+      padding: 12px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95em;
+    }
+
+    .test-item.pass {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-left: 4px solid #4caf50;
+    }
+
+    .test-item.fail {
+      background: #ffebee;
+      color: #c62828;
+      border-left: 4px solid #f44336;
+    }
+
+    .test-icon {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .test-name {
+      flex: 1;
+    }
+
+    .test-error {
+      font-size: 0.85em;
+      color: #666;
+      margin-top: 5px;
+      padding-left: 28px;
+      font-style: italic;
+    }
+
+    .summary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .stat-value {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #4caf50;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .button-group {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin: 0 10px;
+    }
+
+    button:hover {
+      background: #764ba2;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: white;
+      font-size: 1.2em;
+    }
+
+    @media (max-width: 600px) {
+      .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .header h1 {
+        font-size: 1.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🧪 GlamCalc Test Suite</h1>
+      <p>Comprehensive Testing & Edge Case Validation</p>
+    </div>
+
+    <div id="loading" class="loading">
+      ⏳ Running tests... Please wait
+    </div>
+
+    <div id="results" style="display: none;">
+      <!-- Test results will be inserted here -->
+    </div>
+
+    <div class="button-group">
+      <button onclick="location.reload()">🔄 Re-run Tests</button>
+      <button onclick="location.href='/'">🧮 Back to Calculator</button>
+    </div>
+  </div>
+
+  <script src="tests.js"></script>
+  <script>
+    // Wait for tests to complete and render results
+    setTimeout(() => {
+      const loadingEl = document.getElementById('loading');
+      const resultsEl = document.getElementById('results');
+      
+      loadingEl.style.display = 'none';
+      resultsEl.style.display = 'block';
+
+      // Render results from the test summary
+      const tester = new CalculatorTest();
+      const testResult = tester.runAllTests();
+
+      let html = '';
+
+      // Group results by category
+      const categories = {
+        'BASIC OPERATIONS': [],
+        'EDGE CASES': [],
+        'STATE MANAGEMENT': [],
+        'DISPLAY': [],
+        'INPUT VALIDATION': [],
+        'FLOATING POINT': [],
+        'KEYBOARD INPUT': [],
+        'PERFORMANCE & STABILITY': [],
+        'ERROR HANDLING': []
+      };
+
+      testResult.results.forEach(result => {
+        let category = 'OTHER';
+        if (result.name.includes('Addition') || result.name.includes('Subtraction') || 
+            result.name.includes('Multiplication') || result.name.includes('Division')) {
+          category = 'BASIC OPERATIONS';
+        } else if (result.name.includes('Zero') || result.name.includes('Decimal') || 
+                   result.name.includes('Large') || result.name.includes('Small') ||
+                   result.name.includes('Negative')) {
+          category = 'EDGE CASES';
+        } else if (result.name.includes('State') || result.name.includes('Flag') || 
+                   result.name.includes('Chain') || result.name.includes('Negation') ||
+                   result.name.includes('Operations')) {
+          category = 'STATE MANAGEMENT';
+        } else if (result.name.includes('Display') || result.name.includes('Format')) {
+          category = 'DISPLAY';
+        } else if (result.name.includes('Empty') || result.name.includes('Validation')) {
+          category = 'INPUT VALIDATION';
+        } else if (result.name.includes('Floating')) {
+          category = 'FLOATING POINT';
+        } else if (result.name.includes('Keyboard')) {
+          category = 'KEYBOARD INPUT';
+        } else if (result.name.includes('Loop') || result.name.includes('Listener')) {
+          category = 'PERFORMANCE & STABILITY';
+        } else if (result.name.includes('parse') || result.name.includes('Character')) {
+          category = 'ERROR HANDLING';
+        }
+
+        if (categories[category]) {
+          categories[category].push(result);
+        }
+      });
+
+      // Render each category
+      Object.keys(categories).forEach(category => {
+        if (categories[category].length > 0) {
+          html += `<div class="test-section">`;
+          html += `<h2>${category}</h2>`;
+          categories[category].forEach(result => {
+            const statusClass = result.status === 'PASS' ? 'pass' : 'fail';
+            const icon = result.status === 'PASS' ? '✅' : '❌';
+            html += `<div class="test-item ${statusClass}">`;
+            html += `<span class="test-icon">${icon}</span>`;
+            html += `<span class="test-name">${result.name}</span>`;
+            if (result.error) {
+              html += `<div class="test-error">${result.error}</div>`;
+            }
+            html += `</div>`;
+          });
+          html += `</div>`;
+        }
+      });
+
+      // Add summary
+      const successRate = (testResult.passed / testResult.total) * 100;
+      html += `<div class="summary">`;
+      html += `<h2 style="border: none; color: white; margin-bottom: 20px;">📊 Test Summary</h2>`;
+      html += `<div class="summary-stats">`;
+      html += `<div class="stat"><div class="stat-value">${testResult.passed}</div><div class="stat-label">Passed</div></div>`;
+      html += `<div class="stat"><div class="stat-value">${testResult.failed}</div><div class="stat-label">Failed</div></div>`;
+      html += `<div class="stat"><div class="stat-value">${testResult.total}</div><div class="stat-label">Total</div></div>`;
+      html += `<div class="stat"><div class="stat-value">${successRate.toFixed(1)}%</div><div class="stat-label">Success Rate</div></div>`;
+      html += `</div>`;
+      html += `<div class="progress-bar"><div class="progress-fill" style="width: ${successRate}%;"></div></div>`;
+      if (testResult.failed === 0) {
+        html += `<p style="margin-top: 20px; font-size: 1.2em; font-weight: bold;">🎉 All tests passed! No issues detected.</p>`;
+      } else {
+        html += `<p style="margin-top: 20px; font-size: 1.2em;">⚠️  ${testResult.failed} test(s) failed.</p>`;
+      }
+      html += `</div>`;
+
+      resultsEl.innerHTML = html;
+    }, 500);
+  </script>
+</body>
+</html>
